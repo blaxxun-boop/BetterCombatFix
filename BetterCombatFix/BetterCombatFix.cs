@@ -8,7 +8,7 @@ namespace BetterCombatFix
 	public class BetterCombatFix : BaseUnityPlugin
 	{
 		private const string ModName = "Better Combat Fix";
-		private const string ModVersion = "1.0.0";
+		private const string ModVersion = "1.0.1";
 		private const string ModGUID = "org.bepinex.plugins.bettercombatfix";
 
 		private void Awake()
@@ -17,10 +17,10 @@ namespace BetterCombatFix
 			harmony.PatchAll();
 		}
 
-		[HarmonyPatch(typeof(Attack), nameof(Attack.OnAttackTrigger))]
+		[HarmonyPatch(typeof(Attack), nameof(Attack.DoMeleeAttack))]
 		private static class Patch_Attack_DoMeleeAttack
 		{
-			private static bool Prefix(Attack __instance)
+			private static void Prefix(Attack __instance)
 			{
 				if (__instance.m_character is Player player)
 				{
@@ -68,10 +68,7 @@ namespace BetterCombatFix
 							character.Damage(hitData);
 						}
 					}
-
-					return false;
 				}
-				return true;
 			}
 		}
 	}
